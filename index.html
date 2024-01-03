@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>El pollo loco</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./img/7_statusbars/3_icons/icon_coin.png"
+    />
 
     <link rel="stylesheet" href="./style.css" />
 
@@ -19,17 +24,73 @@
     <script src="./models/level.class.js"></script>
     <script src="./models/throwable-object.class.js"></script>
     <script src="./models/endboss.class.js"></script>
-    
 
     <script src="./levels/level1.js"></script>
 
     <script src="./js/game.js"></script>
-
   </head>
-  <body onload="init()">
-
+  <body>
     <h1>El pollo loco</h1>
-    <canvas width="720" height="480" id="canvas"></canvas>
 
+    <section class="container" id="container">
+      <!-- startscreen  -->
+      <div id="startscreen" class="startscreen">
+        <img
+          class="startscreen"
+          src="./img/9_intro_outro_screens/start/startscreen_1.png"
+        />
+        <!-- startMenu -->
+        <div class="menuList">
+          <div id="info" onclick="openInfo()">
+            <img src="./img/startScreen/info.svg" alt="info" />
+          </div>
+          <div onclick="muteSound()">
+            <img id="mute" src="./img/startScreen/volume_up.svg" alt="mute" />
+          </div>
+          <div id="fullscreen" onclick="fullscrenn()">
+            <img src="./img/startScreen/fullscreen.svg" alt="fullscreen" />
+          </div>
+        </div>
+        <!-- start button -->
+        <div class="startButton" id="startButton" onclick="startGame()">
+          <img src="./img/startScreen/play_arrow.svg" alt="startTheGame" />
+        </div>
+      </div>
+
+      <div id="infoSite" class="infoSite displayNone">
+        <button class="infoClose" onclick="closeInfo()">X</button>
+        <div class="infoText">
+          El Pollo Loco is a 2D game. You play as Pepe, who fights against
+          demonic chickens. By picking up and throwing bottles of Pepe Salsa you
+          can defeat your opponents.
+        </div>
+      </div>
+
+      <canvas width="720" height="480" id="canvas"></canvas>
+    </section>
+
+    <section class="controller">
+      <div class="leftController">
+        <div id="left">
+          <img src="./img/controller/arrow_back.svg" alt="fullscreen" />
+          Left direction
+        </div>
+        <div id="right">
+          <img src="./img/controller/arrow_forward.svg" alt="fullscreen" />
+          Right direction
+        </div>
+      </div>
+
+      <div class="rightController">
+        <div id="jump">
+          <img src="./img/controller/space_bar.svg" alt="fullscreen" />
+          Jump
+        </div>
+        <div id="shoot">
+          <div class="shootIcon">F</div>
+          Fire
+        </div>
+      </div>
+    </section>
   </body>
 </html>

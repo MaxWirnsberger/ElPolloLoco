@@ -50,10 +50,14 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+    // setzt die Kamera auf -this.x + 100; (start -20)
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectsToMap(this.level.backgroundObjects);
 
+    // Die Kamera wird sehr schnell auf den Anfgang des Bildes gestellt.
+    // Der StatusBalken wird eingefügt
+    // Die Kamera 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.statusBar);
     this.ctx.translate(this.camera_x, 0);
