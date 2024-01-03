@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-  height = 320;
+  height = 200;
   width = 130;
-  y = 110;
+  y = 240;
   speed = 10;
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -78,7 +78,6 @@ class Character extends MovableObject {
         this.jump();
       }
 
-      // camera_x wird in World definiert. 
       this.world.camera_x = -this.x + 120;
     }, 1000 / 60);
 

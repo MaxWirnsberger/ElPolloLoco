@@ -4,6 +4,8 @@ class MovableObject extends DrawableObject {
   speedY = 0;
   acceleration = 2.5;
   energy = 100;
+  coins = 0;
+  bottles = 0;
   lastHit = 0;
 
   applyGravity() {
@@ -19,7 +21,7 @@ class MovableObject extends DrawableObject {
     if (this instanceof ThrowableObject) {
       return true;
     } else {
-      return this.y < 110;
+      return this.y < 220;
     }
   }
 
@@ -38,6 +40,14 @@ class MovableObject extends DrawableObject {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
+    }
+  }
+
+  pickUp(obj){
+    if(obj = "coin"){
+      this.coins += 10; 
+    } else if(obj = "bottle"){
+      this.bottles += 10; 
     }
   }
 
@@ -67,6 +77,6 @@ class MovableObject extends DrawableObject {
   }
 
   jump() {
-    this.speedY = 30;
+    this.speedY = 25;
   }
 }

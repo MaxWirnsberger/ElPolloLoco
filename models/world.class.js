@@ -27,6 +27,7 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollisions();
+      this.pickUpCoins();
       this.checkThrowObjects();
     }, 200);
   }
@@ -36,6 +37,16 @@ class World {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBarLife.setPercentage(this.character.energy);
+      }
+    });
+  }
+
+  pickUpCoins() {
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        console.log("Das ist die Münze", coin);
+        this.character.pickUp(coin);
+        this.statusBarCoin.setPercentage(this.character.coins);
       }
     });
   }
