@@ -5,7 +5,10 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBar = new StatusBar();
+  statusBarLife = new StatusBarLife();
+  statusBarBottle = new StatusBarBottle();
+  statusBarCoin = new StatusBarCoin();
+  statusBarBoss = new StatusBarEndboss();
   throwableObjects = [];
 
   constructor(canvas, keyboard) {
@@ -32,7 +35,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
+        this.statusBarLife.setPercentage(this.character.energy);
       }
     });
   }
@@ -50,20 +53,21 @@ class World {
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // setzt die Kamera auf -this.x + 100; (start -20)
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectsToMap(this.level.backgroundObjects);
 
-    // Die Kamera wird sehr schnell auf den Anfgang des Bildes gestellt.
-    // Der StatusBalken wird eingefügt
-    // Die Kamera 
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusBar);
+    this.addToMap(this.statusBarLife);
+    this.addToMap(this.statusBarBottle);
+    this.addToMap(this.statusBarCoin);
+    this.addToMap(this.statusBarBoss);
     this.ctx.translate(this.camera_x, 0);
 
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
 
