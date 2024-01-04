@@ -1,9 +1,21 @@
 class Endboss extends MovableObject {
-    height = 400;
-    width = 250;
-    y = 55;
-  
-    IMAGES_WALKING = [
+  height = 400;
+  width = 250;
+  y = 55;
+  EndbossIsDead = false;
+
+  moveLeftInterval;
+  animationInterval;
+  bossIsDead = false;
+
+  IMAGES_WALKING = [
+    "img/4_enemie_boss_chicken/1_walk/G1.png",
+    "img/4_enemie_boss_chicken/1_walk/G2.png",
+    "img/4_enemie_boss_chicken/1_walk/G3.png",
+    "img/4_enemie_boss_chicken/1_walk/G4.png",
+  ];
+
+  IMAGES_ALERT = [
     "img/4_enemie_boss_chicken/2_alert/G5.png",
     "img/4_enemie_boss_chicken/2_alert/G6.png",
     "img/4_enemie_boss_chicken/2_alert/G7.png",
@@ -14,17 +26,65 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+  IMAGES_HURT = [
+    "img/4_enemie_boss_chicken/4_hurt/G21.png",
+    "img/4_enemie_boss_chicken/4_hurt/G22.png",
+    "img/4_enemie_boss_chicken/4_hurt/G23.png",
+  ];
+
+  IMAGES_DEAD = [
+    "img/4_enemie_boss_chicken/5_dead/G24.png",
+    "img/4_enemie_boss_chicken/5_dead/G25.png",
+    "img/4_enemie_boss_chicken/5_dead/G26.png",
+  ];
+
   constructor() {
-    super().loadImage(this.IMAGES_WALKING[0]);
+    super().loadImage(this.IMAGES_ALERT[0]);
+    this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
     this.x = 2500;
+    this.speed = 15;
     this.animate();
   }
 
-  animate(){
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_WALKING)
+  animate() {
+    this.moveLeftInterval = setInterval(() => {
+      if (this.hadFirstContactWithBoss) {
+        this.playAnimation(this.IMAGES_ALERT);
+      } else if (
+        this.BossWalkingIntervall < 10 &&
+        !this.hadFirstContactWithBoss
+      ) {
+        this.playAnimation(this.IMAGES_ALERT);
+      } else {
+        this.moveLeft();
+        this.endbossReactions();
+      }
+      this.BossWalkingIntervall++;
+    }, 150);    
+  }
+
+  endbossReactions() {
+    this.animationInterval = setInterval(() => {
+      if (this.endbossIsDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.stopBoss();
+      } else if (this.BottleGoalOnEndboss()) {
+        this.playAnimation(this.IMAGES_HURT);
+      } else {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
     }, 150);
   }
 
+  stopBoss() {
+    clearInterval(this.moveLeftInterval)
+    setTimeout(() => {
+      clearInterval(this.animationInterval)
+    }, 2000);
+
+    this.bossIsDead = true;
+  }
 }
