@@ -50,28 +50,27 @@ class World {
     });
   }
 
-  checkIfHitWithAJump(enemy, index) {
+  checkIfHitWithAJump(enemy) {
     return (
       this.character.isAboveGround() &&
       this.character.isColliding(enemy) &&
-      !this.level.enemies[index].chickenIsDead
+      !enemy.chickenIsDead
     );
   }
 
-  checkItWillGetHurt(enemy, index) {
+  checkItWillGetHurt(enemy) {
     return (
       this.character.isColliding(enemy) &&
       !this.character.isAboveGround() &&
-      !this.level.enemies[index].chickenIsDead &&
+      !enemy.chickenIsDead &&
       !this.character.didHit
     );
   }
 
-  killChickeWithAJump(enemy, index) {
+  killChickeWithAJump(enemy) {
     enemy.enemyDead = true;
-    this.level.enemies[index].stopChicken();
+    enemy.stopChicken();
     setTimeout(() => {
-      this.level.enemies.splice(index, 1);
     }, 1000);
   }
 
@@ -80,9 +79,8 @@ class World {
       this.throwableObjects.forEach((bottle) => {
         if (enemy.isColliding(bottle)) {
           enemy.enemyDead = true;
-          this.level.enemies[index].stopChicken();
+          enemy.stopChicken();
           setTimeout(() => {
-            this.level.enemies.splice(index, 1);
           }, 1000);
         }
       });
