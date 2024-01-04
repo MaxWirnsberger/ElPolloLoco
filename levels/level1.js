@@ -14,16 +14,16 @@ function initLevel() {
       new Bottle(),
     ],
     [
-      new Coins(1),
-      new Coins(2),
-      new Coins(3),
-      new Coins(4),
-      new Coins(5),
-      new Coins(6),
-      new Coins(7),
-      new Coins(8),
-      new Coins(9),
-      new Coins(10)
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins(),
+      new Coins()
     ],
     [
       new Chicken(),

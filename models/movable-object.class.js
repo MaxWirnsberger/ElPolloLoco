@@ -43,12 +43,12 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  pickUp(obj){
-    if(obj = "coin"){
-      this.coins += 10; 
-    } else if(obj = "bottle"){
-      this.bottles += 10; 
-    }
+  pickUpCoin() {
+    this.coins += 10;
+  }
+
+  pickUpBottles() {
+    this.bottles += 1;
   }
 
   isHurt() {

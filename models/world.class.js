@@ -27,7 +27,8 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollisions();
-      this.pickUpCoins();
+      this.collisionsCoins();
+      this.collisionsBottles();
       this.checkThrowObjects();
     }, 200);
   }
@@ -41,22 +42,34 @@ class World {
     });
   }
 
-  pickUpCoins() {
-    this.level.coins.forEach((coin) => {
+  collisionsCoins() {
+    this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
-        console.log("Das ist die Münze", coin);
-        this.character.pickUp(coin);
+        this.character.pickUpCoin();
+        this.level.coins.splice(index, 1);
         this.statusBarCoin.setPercentage(this.character.coins);
       }
     });
   }
 
+  collisionsBottles() {
+    this.level.bottles.forEach((bottle, index) => {
+      if (this.character.isColliding(bottle)) {
+        this.character.pickUpBottles();
+        this.level.bottles.splice(index, 1);
+        this.statusBarBottle.setPercentage(this.character.bottles);
+      }
+    });
+  }
+
   checkThrowObjects() {
-    if (this.keyboard.F) {
+    if (this.keyboard.F && this.character.bottles > 0) {
       let bottle = new ThrowableObject(
         this.character.x + 100,
-        this.character.y + 100
+        this.character.y
       );
+      this.character.bottles -= 1;
+      this.statusBarBottle.setPercentage(this.character.bottles);
       this.throwableObjects.push(bottle);
     }
   }
