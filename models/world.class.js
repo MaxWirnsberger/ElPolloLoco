@@ -48,6 +48,7 @@ class World {
       this.throwableObjects.forEach((bottle) => {
         if (enemy.isColliding(bottle)) {
           enemy.enemyDead = true;
+          this.level.enemies[index].stopChicken()
           setTimeout(() => {
             this.level.enemies.splice(index, 1);
           }, 1000);

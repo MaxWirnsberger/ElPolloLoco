@@ -47,11 +47,7 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  hitChicken(){
-    return true
-  }
-
-  hitTimer(){
+ hitTimer(){
     setTimeout(() => {
       this.didHit = false;
     }, 1000);
