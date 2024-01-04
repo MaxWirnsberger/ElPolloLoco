@@ -92,7 +92,7 @@ class World {
   checkBottleEndbossAttace() {
     this.level.endboss.forEach((boss) => {
       this.throwableObjects.forEach((bottle) => {
-        if (boss.isColliding(bottle)) {
+        if (boss.isColliding(bottle) && !boss.didEndbossHit) {
           boss.endbossHit();
           this.statusBarBoss.setPercentage(boss.bossEnergy);
         }
@@ -186,7 +186,6 @@ class World {
       this.flipImage(movableObject);
     }
     movableObject.draw(this.ctx);
-    movableObject.drawFrame(this.ctx);
 
     if (movableObject.otherDirection) {
       this.flipImageBack(movableObject);

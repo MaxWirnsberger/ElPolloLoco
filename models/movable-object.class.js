@@ -10,8 +10,9 @@ class MovableObject extends DrawableObject {
   lastHit = 0;
   lastEndbossHit = 0;
   hadFirstContactWithBoss = true;
-  BossWalkingIntervall = 0
+  BossWalkingIntervall = 0;
   didHit = false;
+  didEndbossHit = false;
 
   applyGravity() {
     setInterval(() => {
@@ -101,7 +102,7 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  endbossIsDead(){
+  endbossIsDead() {
     return this.bossEnergy == 0;
   }
 
@@ -111,8 +112,16 @@ class MovableObject extends DrawableObject {
       this.bossEnergy = 0;
     } else {
       this.lastEndbossHit = new Date().getTime();
-      this.x -= 150;
+      this.x -= 75;
+      this.didEndbossHit = true;
+      this.hitEndbossTimer();
     }
+  }
+
+  hitEndbossTimer() {
+    setTimeout(() => {
+      this.didEndbossHit = false;
+    }, 1000);
   }
 
   BottleGoalOnEndboss() {

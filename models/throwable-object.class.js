@@ -11,7 +11,7 @@ class ThrowableObject extends MovableObject {
   trow() {
     this.width = 100;
     this.height = 80;
-    this.speedY = 30;
+    this.speedY = 20;
     this.applyGravity();
     setInterval(() => {
       this.x += 10;
