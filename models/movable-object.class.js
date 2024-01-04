@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
   coins = 0;
   bottles = 0;
   lastHit = 0;
+  didHit = false;
 
   applyGravity() {
     setInterval(() => {
@@ -40,14 +41,27 @@ class MovableObject extends DrawableObject {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
+      this.x -= 150;
+      this.didHit = true
+      this.hitTimer()
     }
   }
 
-  pickUpCoin() {
+  hitChicken(){
+    return true
+  }
+
+  hitTimer(){
+    setTimeout(() => {
+      this.didHit = false;
+    }, 1000);
+  }
+
+  addCoin() {
     this.coins += 10;
   }
 
-  pickUpBottles() {
+  addBottle() {
     this.bottles += 1;
   }
 

@@ -32,8 +32,8 @@ function initLevel() {
       new Chicken(),
       new Chicken(),
       new Chicken(),
-      new Endboss(),
     ],
+    [new Endboss()],
     [new Cloud()],
     [
       new BackgroundObject("img/5_background/layers/air.png", -719),
