@@ -34,7 +34,7 @@
 
     <script src="./js/game.js"></script>
   </head>
-  <body>
+  <body">
     <h1>EL POLLO LOCO</h1>
 
     <section class="container" id="container">
@@ -71,7 +71,17 @@
         </div>
       </div>
 
-      <canvas width="720" height="480" id="canvas"></canvas>
+      <canvas width="720" height="480" id="canvas">
+        <!-- startMenu -->
+        <div class="menuList">
+          <div onclick="muteSound()">
+            <img id="mute" src="./img/startScreen/volume_up.svg" alt="mute" />
+          </div>
+          <div id="fullscreen" onclick="fullscrenn()">
+            <img src="./img/startScreen/fullscreen.svg" alt="fullscreen" />
+          </div>
+        </div>
+      </canvas>
     </section>
 
     <section class="controller">

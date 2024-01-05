@@ -13,6 +13,8 @@ class MovableObject extends DrawableObject {
   BossWalkingIntervall = 0;
   didHit = false;
   didEndbossHit = false;
+  endBoss_hit_sound = new Audio("audio/chicken.mp3");
+  jumping_sound = new Audio("audio/jump.mp3");
 
   applyGravity() {
     setInterval(() => {
@@ -108,6 +110,7 @@ class MovableObject extends DrawableObject {
 
   endbossHit() {
     this.bossEnergy -= 20;
+    this.endBoss_hit_sound.play()
     if (this.bossEnergy < 0) {
       this.bossEnergy = 0;
     } else {

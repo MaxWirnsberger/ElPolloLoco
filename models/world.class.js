@@ -11,6 +11,10 @@ class World {
   statusBarBoss = new StatusBarEndboss();
   throwableObjects = [];
 
+  throw_sound = new Audio("audio/throw.mp3");
+  bottlePickUp_sound = new Audio("audio/bottle.mp3");
+  glasBreak_sound = new Audio("audio/glass.mp3");
+
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -70,18 +74,16 @@ class World {
   killChickeWithAJump(enemy) {
     enemy.enemyDead = true;
     enemy.stopChicken();
-    setTimeout(() => {
-    }, 1000);
   }
 
   checkBottleCollisions() {
-    this.level.enemies.forEach((enemy, index) => {
+    this.level.enemies.forEach((enemy) => {
       this.throwableObjects.forEach((bottle) => {
         if (enemy.isColliding(bottle)) {
+          this.glasBreak_sound.play();
+          bottle.hitEnemyWithBottle = true;
           enemy.enemyDead = true;
           enemy.stopChicken();
-          setTimeout(() => {
-          }, 1000);
         }
       });
     });
@@ -92,6 +94,7 @@ class World {
       this.throwableObjects.forEach((bottle) => {
         if (boss.isColliding(bottle) && !boss.didEndbossHit) {
           boss.endbossHit();
+          this.glasBreak_sound.play();
           this.statusBarBoss.setPercentage(boss.bossEnergy);
         }
       });
@@ -123,8 +126,27 @@ class World {
         this.character.addBottle();
         this.level.bottles.splice(index, 1);
         this.statusBarBottle.setPercentage(this.character.bottles);
+        this.bottlePickUp_sound.play();
       }
     });
+  }
+
+  pickUpSoundPause() {
+    setTimeout(() => {
+      this.bottlePickUp_sound.pause();
+    }, 1000);
+  }
+
+  ThrowSoundPause() {
+    setTimeout(() => {
+      this.throw_sound.pause();
+    }, 1000);
+  }
+
+  glasBreakSoundPause() {
+    setTimeout(() => {
+      this.glasBreak_sound.pause();
+    }, 1000);
   }
 
   checkThrowObjects() {
@@ -133,6 +155,7 @@ class World {
         this.character.x + 100,
         this.character.y
       );
+      this.throw_sound.play();
       this.character.bottles -= 1;
       this.statusBarBottle.setPercentage(this.character.bottles);
       this.throwableObjects.push(bottle);

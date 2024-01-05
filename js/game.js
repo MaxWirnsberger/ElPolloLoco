@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let worldSound = new Audio("audio/music.mp3");
 
 function startGame() {
   loadingSceen();
@@ -8,6 +9,7 @@ function startGame() {
   init();
   removeStartSceen();
   aktivateButtons();
+  soundon();
 }
 
 function loadingSceen() {
@@ -48,20 +50,24 @@ function muteSound() {
   }
 }
 
+function soundon() {
+  worldSound.play();
+}
+
 function fullscrenn() {
   let fullscreen = document.getElementById("container");
   enterFullscreen(fullscreen);
 }
 
 function enterFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    } else if(element.webkitRequestFullscreen) {  
-      element.webkitRequestFullscreen();
-    }
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
   }
+}
 
 function volumeImgPathTester() {
   let path = document.getElementById("mute").src.split("img")[1];
