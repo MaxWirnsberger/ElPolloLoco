@@ -9,16 +9,59 @@
 body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-family: "Sancreek";
-  background-image: url("./img/10_backgroundDesert/desert.png");
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url("./img/10_backgroundDesert/desert.png");
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-.container {
+.gameContainer {
   display: block;
   position: relative;
   width: 720px;
   height: 480px;
+}
+
+.startContainer {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.canvasContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+.endContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.endContainer img {
+  width: 100%;
+  height: 100%;
 }
 
 .displayNone {
@@ -31,6 +74,7 @@ canvas {
 }
 
 h1 {
+  color: #fdad3c;
   font-size: 48px;
   text-shadow: 4px 2px 8px rgba(0, 0, 0, 0.5);
 }
@@ -97,6 +141,29 @@ h1 {
   background-color: #e6a142;
 }
 
+.inGameMenu {
+  position: absolute;
+  display: flex;
+  justify-content: flex-start;
+  top: 20px;
+  padding-left: 20px;
+  gap: 40px;
+}
+
+.inGameMenu img {
+  height: 40px;
+  width: 40px;
+  background-color: #fdad3c;
+  border-radius: 100%;
+  padding: 8px;
+  box-shadow: 5px 3px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.inGameMenu img:hover {
+  background-color: #e6a142;
+}
+
 .startButton {
   position: relative;
   left: 280px;
@@ -118,6 +185,16 @@ h1 {
 }
 
 .controller {
+  display: none !important;
+  margin-top: 8px;
+  width: 720px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controllerInformation {
+  display: flex;
   margin-top: 8px;
   width: 720px;
   display: flex;
@@ -184,20 +261,128 @@ h1 {
   gap: 8px;
 }
 
+.AgainButton {
+  position: absolute;
+  top: 16px;
+  height: 80px;
+  width: 80px;
+  border-radius: 100%;
+  background-color: #fdad3c;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 6px 6px 2px rgba(0, 0, 0, 0.5);
+}
+
+.AgainButton:hover {
+  background-color: #e6a142;
+}
+
 @media only screen and (max-width: 720px) {
-  .container {
+  .gameContainer {
     width: 100%;
   }
+
+  .startContainer {
+    width: 100%;
+  }
+
+  .startscreen {
+    width: 100%;
+  }
+
+  .infoSite {
+    width: 100%;
+  }
+
+  .canvasContainer {
+    width: 100%;
+  }
+
   canvas {
     width: 100%;
+  }
+
+  .endContainer {
+    width: 100%;
+    height: 100%;
+  }
+
+  #endIMG {
+    width: 100%;
+    height: 100%;
+  }
+
+  .controller {
+    display: flex !important;
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .controllerInformation {
+    display: none;
   }
 }
 
 @media only screen and (max-height: 480px) {
-  .container {
+  h1 {
+    display: none;
+  }
+
+  .gameContainer {
     height: 100vh;
   }
-  canvas {
+
+  .startscreen {
     height: 100vh;
+  }
+
+  .infoSite {
+    height: 100vh;
+  }
+
+  .canvasContainer {
+    height: 100vh;
+  }
+
+  /* canvas{
+    height: 100vh;
+  } */
+
+  .endContainer {
+    height: 100%;
+  }
+
+  #endIMG {
+    height: 100%;
+  }
+
+  .controller {
+    display: flex !important;
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .controllerInformation {
+    display: none;
+  }
+
+  .leftController img {
+    height: 40px;
+  }
+
+  .rightController img {
+    height: 40px;
+  }
+
+  .shootIcon {
+    font-size: 30px;
+    height: 40px;
+    width: 40px;
+  }
+
+  #shoot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }

@@ -4,6 +4,7 @@ class World {
   canvas;
   ctx;
   keyboard;
+  soundIsOn;
   camera_x = 0;
   statusBarLife = new StatusBarLife();
   statusBarBottle = new StatusBarBottle();
@@ -11,6 +12,7 @@ class World {
   statusBarBoss = new StatusBarEndboss();
   throwableObjects = [];
 
+  worldSound = new Audio("audio/music.mp3");
   throw_sound = new Audio("audio/throw.mp3");
   bottlePickUp_sound = new Audio("audio/bottle.mp3");
   glasBreak_sound = new Audio("audio/glass.mp3");
@@ -19,6 +21,7 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.soundIsOn = soundIsOn;
     this.draw();
     this.setWorld();
     this.run();

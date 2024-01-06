@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,78 +34,118 @@
 
     <script src="./js/game.js"></script>
   </head>
-  <body">
+  <body>
     <h1>EL POLLO LOCO</h1>
 
-    <section class="container" id="container">
-      <!-- startscreen  -->
-      <div id="startscreen" class="startscreen">
-        <img
-          class="startscreen"
-          src="./img/9_intro_outro_screens/start/startscreen_1.png"
-        />
-        <!-- startMenu -->
-        <div class="menuList">
-          <div id="info" onclick="openInfo()">
-            <img src="./img/startScreen/info.svg" alt="info" />
+      <section class="gameContainer" id="gameContainer">
+        <section class="startContainer" id="startContainer">
+          <!-- startscreen  -->
+          <div id="startscreen" class="startscreen">
+            <img src="./img/9_intro_outro_screens/start/startscreen_1.png" />
+            <!-- startMenu -->
+            <div class="menuList">
+              <div id="info" onclick="openInfo()">
+                <img src="./img/startScreen/info.svg" alt="info" />
+              </div>
+              <div onclick="muteSound('mute')">
+                <img
+                  id="mute"
+                  src="./img/startScreen/volume_off.svg"
+                  alt="mute"
+                />
+              </div>
+            </div>
+            <!-- start button -->
+            <div class="startButton" id="startButton" onclick="startGame()">
+              <img src="./img/startScreen/play_arrow.svg" alt="startTheGame" />
+            </div>
           </div>
-          <div onclick="muteSound()">
-            <img id="mute" src="./img/startScreen/volume_up.svg" alt="mute" />
-          </div>
-          <div id="fullscreen" onclick="fullscrenn()">
-            <img src="./img/startScreen/fullscreen.svg" alt="fullscreen" />
-          </div>
-        </div>
-        <!-- start button -->
-        <div class="startButton" id="startButton" onclick="startGame()">
-          <img src="./img/startScreen/play_arrow.svg" alt="startTheGame" />
-        </div>
-      </div>
 
-      <div id="infoSite" class="infoSite displayNone">
-        <button class="infoClose" onclick="closeInfo()">X</button>
-        <div class="infoText">
-          El Pollo Loco is a 2D game. You play as Pepe, who fights against
-          demonic chickens. By picking up and throwing bottles of Pepe Salsa you
-          can defeat your opponents.
-        </div>
-      </div>
-
-      <canvas width="720" height="480" id="canvas">
-        <!-- startMenu -->
-        <div class="menuList">
-          <div onclick="muteSound()">
-            <img id="mute" src="./img/startScreen/volume_up.svg" alt="mute" />
+          <div id="infoSite" class="infoSite displayNone">
+            <button class="infoClose" onclick="closeInfo()">X</button>
+            <div class="infoText">
+              El Pollo Loco is a 2D game. You play as Pepe, who fights against
+              demonic chickens. By picking up and throwing bottles of Pepe Salsa
+              you can defeat your opponents.
+            </div>
           </div>
-          <div id="fullscreen" onclick="fullscrenn()">
-            <img src="./img/startScreen/fullscreen.svg" alt="fullscreen" />
+        </section>
+
+        <section id="canvasContainer" class="canvasContainer displayNone">
+          <canvas width="720" height="480" id="canvas"></canvas>
+          <div class="inGameMenu">
+            <div onclick="muteSound('muteOnGame')">
+              <img
+                id="muteOnGame"
+                src="./img/startScreen/volume_up.svg"
+                alt="mute"
+              />
+            </div>
+            <div id="fullscreenOnGame" onclick="fullscrenn()">
+              <img src="./img/startScreen/fullscreen.svg" alt="fullscreen" />
+            </div>
+          </div>
+        </section>
+
+        <section class="endContainer displayNone" id="endContainer">
+          <button
+            onclick="window.location.href=window.location.href"
+            class="AgainButton"
+          >
+            Play Again!
+          </button>
+          <img
+            id="endIMG"
+            src="img/9_intro_outro_screens/game_over/oh no you lost!.png"
+            alt=""
+          />
+        </section>
+
+        <section class="controller">
+          <div class="leftController">
+            <div id="left">
+              <img src="./img/controller/arrow_back.svg" alt="fullscreen" />
+            </div>
+            <div id="right">
+              <img src="./img/controller/arrow_forward.svg" alt="fullscreen" />
+            </div>
+          </div>
+
+          <div class="rightController">
+            <div id="jump">
+              <img src="./img/controller/space_bar.svg" alt="fullscreen" />
+            </div>
+            <div id="shoot">
+              <div class="shootIcon">F</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="controllerInformation">
+        <div class="leftController">
+          <div id="left">
+            <img src="./img/controller/arrow_back.svg" alt="fullscreen" />
+            Left direction
+          </div>
+          <div id="right">
+            <img src="./img/controller/arrow_forward.svg" alt="fullscreen" />
+            Right direction
           </div>
         </div>
-      </canvas>
-    </section>
 
-    <section class="controller">
-      <div class="leftController">
-        <div id="left">
-          <img src="./img/controller/arrow_back.svg" alt="fullscreen" />
-          Left direction
+        <div class="rightController">
+          <div id="jump">
+            <img src="./img/controller/space_bar.svg" alt="fullscreen" />
+            Jump
+          </div>
+          <div id="shoot">
+            <div class="shootIcon">F</div>
+            Fire
+          </div>
         </div>
-        <div id="right">
-          <img src="./img/controller/arrow_forward.svg" alt="fullscreen" />
-          Right direction
-        </div>
-      </div>
 
-      <div class="rightController">
-        <div id="jump">
-          <img src="./img/controller/space_bar.svg" alt="fullscreen" />
-          Jump
-        </div>
-        <div id="shoot">
-          <div class="shootIcon">F</div>
-          Fire
-        </div>
-      </div>
-    </section>
+      </section>
+
   </body>
 </html>

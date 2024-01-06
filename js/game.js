@@ -1,7 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let worldSound = new Audio("audio/music.mp3");
+let soundIsOn = false;
+worldSound = new Audio("audio/music.mp3");
 
 function startGame() {
   loadingSceen();
@@ -10,6 +11,7 @@ function startGame() {
   removeStartSceen();
   aktivateButtons();
   soundon();
+  muteButtonTestOnStart();
 }
 
 function loadingSceen() {
@@ -19,13 +21,15 @@ function loadingSceen() {
 
 function removeStartSceen() {
   setTimeout(() => {
-    document.getElementById("startscreen").classList.add("displayNone");
+    let canvasContrainer = document.getElementById("canvasContainer");
+    document.getElementById("startContainer").classList.add("displayNone");
+    canvasContrainer.classList.remove("displayNone");
   }, 1000);
 }
 
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  world = new World(canvas, keyboard, soundIsOn);
 }
 
 function openInfo() {
@@ -36,26 +40,50 @@ function closeInfo() {
   document.getElementById("infoSite").classList.add("displayNone");
 }
 
-function muteSound() {
-  let muteButton = document.getElementById("mute");
+function muteSound(id) {
+  let muteButton = document.getElementById(id);
   let volumeUp = "./img/startScreen/volume_up.svg";
   let volumeOff = "./img/startScreen/volume_off.svg";
-  let volumeImgPath = volumeImgPathTester();
-  if (volumeImgPath == volumeUp) {
+  if (soundIsOn) {
     muteButton.src = volumeOff;
-    // Hier muss noch eine Function ergänst werden, welche den Ton ausschaltet
-  } else if (volumeImgPath == volumeOff) {
+    SoundOptionsOFF();
+    soundon()
+  } else {
     muteButton.src = volumeUp;
-    // Hier muss noch eine Function ergänst werden, welche den Ton einschaltet
+    SoundOptionsON();
+    soundon()
   }
 }
 
+function muteButtonTestOnStart() {
+  let muteButton = document.getElementById("muteOnGame");
+  let volumeUp = "./img/startScreen/volume_up.svg";
+  let volumeOff = "./img/startScreen/volume_off.svg";
+  if (soundIsOn) {
+    muteButton.src = volumeUp;
+  } else {
+    muteButton.src = volumeOff;
+  }
+}
+
+function SoundOptionsOFF() {
+  soundIsOn = false;
+}
+
+function SoundOptionsON() {
+  soundIsOn = true;
+}
+
 function soundon() {
-  worldSound.play();
+  if (soundIsOn) {
+    worldSound.play();
+  } else {
+    worldSound.pause();
+  }
 }
 
 function fullscrenn() {
-  let fullscreen = document.getElementById("container");
+  let fullscreen = document.getElementById("canvasContainer");
   enterFullscreen(fullscreen);
 }
 

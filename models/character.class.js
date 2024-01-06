@@ -85,6 +85,7 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        this.endCardScreen()
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -105,4 +106,12 @@ class Character extends MovableObject {
     }, 300);
   }
 
+  endCardScreen(){
+    setTimeout(() => {
+      let endScreen = document.getElementById('endContainer')
+      let endText = document.getElementById('endIMG')
+      endText.src = "img/9_intro_outro_screens/game_over/oh no you lost!.png"
+      endScreen.classList.remove('displayNone')
+    }, 1000)
+  }
 }

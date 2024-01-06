@@ -71,6 +71,7 @@ class Endboss extends MovableObject {
       if (this.endbossIsDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         this.stopBoss();
+        this.endCardScreenWin()
       } else if (this.BottleGoalOnEndboss()) {
         this.playAnimation(this.IMAGES_HURT);
       } else {
@@ -81,10 +82,20 @@ class Endboss extends MovableObject {
 
   stopBoss() {
     clearInterval(this.moveLeftInterval)
+    clearInterval(this.animationInterval)
     setTimeout(() => {
       clearInterval(this.animationInterval)
     }, 2000);
 
     this.bossIsDead = true;
+  }
+
+  endCardScreenWin(){
+    setTimeout(() => {
+      let endScreen = document.getElementById('endContainer')
+      let endText = document.getElementById('endIMG')
+      endText.src = "img/9_intro_outro_screens/game_over/game over!.png"
+      endScreen.classList.remove('displayNone')
+    }, 1000)
   }
 }
