@@ -24,12 +24,12 @@ function removeStartSceen() {
     let canvasContrainer = document.getElementById("canvasContainer");
     document.getElementById("startContainer").classList.add("displayNone");
     canvasContrainer.classList.remove("displayNone");
-  }, 1000);
+  }, 3000);
 }
 
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard, soundIsOn);
+  world = new World(canvas, keyboard, soundIsOn, worldSound);
 }
 
 function openInfo() {
@@ -46,12 +46,12 @@ function muteSound(id) {
   let volumeOff = "./img/startScreen/volume_off.svg";
   if (soundIsOn) {
     muteButton.src = volumeOff;
-    SoundOptionsOFF();
-    soundon()
+    SoundOptionsOFF(id);
+    soundon();
   } else {
     muteButton.src = volumeUp;
-    SoundOptionsON();
-    soundon()
+    SoundOptionsON(id);
+    soundon();
   }
 }
 
@@ -66,12 +66,22 @@ function muteButtonTestOnStart() {
   }
 }
 
-function SoundOptionsOFF() {
-  soundIsOn = false;
+function SoundOptionsOFF(id) {
+  if (id == "muteOnGame") {
+    world.soundIsOn = false;
+    soundIsOn = false;
+  } else {
+    soundIsOn = false;
+  }    
 }
 
-function SoundOptionsON() {
-  soundIsOn = true;
+function SoundOptionsON(id) {
+  if (id == "muteOnGame") {
+    world.soundIsOn = true;
+    soundIsOn = true;
+  } else {
+    soundIsOn = true;
+  }  
 }
 
 function soundon() {

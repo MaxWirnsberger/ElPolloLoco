@@ -1,5 +1,11 @@
 class ThrowableObject extends MovableObject {
   hitEnemyWithBottle = false;
+  offset = {
+    top: 10,
+    right: 0,
+    bottom: 5,
+    left: 10
+};
   IMAGE_BOTTLE = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",

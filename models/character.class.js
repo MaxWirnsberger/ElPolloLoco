@@ -1,8 +1,16 @@
 class Character extends MovableObject {
-  height = 200;
+  height = 300;
   width = 130;
-  y = 240;
+  y = 130;
   speed = 10;
+
+  offset = {
+    top: 100,
+    right: 20,
+    bottom: 10,
+    left: 20,
+  };
+
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -63,35 +71,32 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       this.wolking_sound.pause();
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      if (
+        this.world.keyboard.RIGHT &&
+        this.x < this.world.level.level_end_x &&
+        this.world.distanceBossAndCharacter > 10
+      ) {
         this.moveRight();
         this.otherDirection = false;
-        this.wolking_sound.play();
-      }
-
-      if (this.world.keyboard.LEFT && this.x > 0) {
+        this.characterSoundWalkingCheck();
+      } else if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
-        this.wolking_sound.play();
-      }
-
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+        this.characterSoundWalkingCheck();
+      } else if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
-      }
-
-      this.world.camera_x = -this.x + 120;
+      } this.world.camera_x = -this.x + 120;
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        this.endCardScreen()
+        this.endCardScreen();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
-        this.jumping_sound.play();
-        this.jumpingSoundPause();
+        this.characterSoundJumpingCheck();
       } else {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.IMAGES_WALKING);
@@ -100,18 +105,25 @@ class Character extends MovableObject {
     }, 50);
   }
 
-  jumpingSoundPause() {
+  endCardScreen() {
     setTimeout(() => {
-      this.jumping_sound.pause();
-    }, 300);
+      let endScreen = document.getElementById("endContainer");
+      let endText = document.getElementById("endIMG");
+      endText.src = "img/9_intro_outro_screens/game_over/oh no you lost!.png";
+      endScreen.classList.remove("displayNone");
+    }, 1000);
   }
 
-  endCardScreen(){
-    setTimeout(() => {
-      let endScreen = document.getElementById('endContainer')
-      let endText = document.getElementById('endIMG')
-      endText.src = "img/9_intro_outro_screens/game_over/oh no you lost!.png"
-      endScreen.classList.remove('displayNone')
-    }, 1000)
+  characterSoundWalkingCheck() {
+    if (this.world.soundIsOn) {
+      this.wolking_sound.play();
+    }
+  }
+
+  characterSoundJumpingCheck() {
+    if (this.world.soundIsOn && !this.isJumping) {
+      this.jumping_sound.play();
+      this.isJumping = true;
+    }
   }
 }

@@ -13,8 +13,7 @@ class MovableObject extends DrawableObject {
   BossWalkingIntervall = 0;
   didHit = false;
   didEndbossHit = false;
-  endBoss_hit_sound = new Audio("audio/chicken.mp3");
-  jumping_sound = new Audio("audio/jump.mp3");
+  isJumping = false;
 
   applyGravity() {
     setInterval(() => {
@@ -22,23 +21,25 @@ class MovableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }
-    }, 1000 / 25);
+    }, 1000 / 30);
   }
 
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
+    } else if (this.y < 130) {
+      return true;
     } else {
-      return this.y < 220;
+      this.isJumping = false;
     }
   }
 
   isColliding(obj) {
     return (
-      this.x + this.width >= obj.x &&
-      this.x <= obj.x + obj.width &&
-      this.y + this.height >= obj.y &&
-      this.y <= obj.y + obj.height
+      this.x + this.width - this.offset.right > obj.x + obj.offset.left &&
+      this.y + this.height - this.offset.bottom > obj.y + obj.offset.top &&
+      this.x + this.offset.left < obj.x + obj.width - obj.offset.right &&
+      this.y + this.offset.top < obj.y + obj.height - obj.offset.bottom
     );
   }
 
@@ -48,7 +49,9 @@ class MovableObject extends DrawableObject {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
-      this.x -= 150;
+      if (this.x > 0) {
+        this.x -= 150;
+      }
       this.didHit = true;
       this.hitTimer();
     }
@@ -97,6 +100,10 @@ class MovableObject extends DrawableObject {
     this.speedY = 25;
   }
 
+  distanceToBoss(characterX) {
+    return this.x - characterX;
+  }
+
   firstContactCheck(characterX) {
     if (characterX > 2000 && this.hadFirstContactWithBoss) {
       this.BossWalkingIntervall = 0;
@@ -110,7 +117,6 @@ class MovableObject extends DrawableObject {
 
   endbossHit() {
     this.bossEnergy -= 20;
-    this.endBoss_hit_sound.play()
     if (this.bossEnergy < 0) {
       this.bossEnergy = 0;
     } else {
@@ -131,5 +137,30 @@ class MovableObject extends DrawableObject {
     let timepassed = new Date().getTime() - this.lastEndbossHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
+  }
+
+  //Play Sounds
+  bottlePickUpSound(soundIsOn) {
+    if (soundIsOn) {
+      this.bottlePickUp_sound.play();
+    }
+  }
+
+  throwBottleSound(soundIsOn) {
+    if (soundIsOn) {
+      this.throw_sound.play();
+    }
+  }
+
+  glasBreakSound(soundIsOn) {
+    if (soundIsOn) {
+      this.glasBreak_sound.play();
+    }
+  }
+
+  bottleHitEndBossSound(soundIsOn) {
+    if (soundIsOn) {
+      this.endBoss_hit_sound.play();
+    }
   }
 }
