@@ -1,0 +1,118 @@
+@media only screen and (max-width: 720px) and (orientation: portrait) {
+  .rotationInfo {
+    display: flex !important;
+  }
+
+  .gameContainer{
+    display: none;
+  }
+
+  .controllerInformation{
+    display: none;
+  }
+}
+@media only screen and (max-width: 720px) and (orientation: landscape) {
+  .gameContainer {
+    width: 100%;
+  }
+
+  .startContainer {
+    width: 100%;
+  }
+
+  .startscreen {
+    width: 100%;
+  }
+
+  #startscreenIMG {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 720px;
+    max-height: 480px;
+}
+
+  .canvasContainer {
+    width: 100%;
+  }
+
+  canvas {
+    width: 100%;
+  }
+
+  .endContainer {
+    width: 100%;
+    height: 100%;
+  }
+
+  #endIMG {
+    width: 100%;
+    height: 100%;
+  }
+
+  .controller {
+    display: flex !important;
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .controllerInformation {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  h1 {
+    display: none;
+  }
+
+  .gameContainer {
+    height: 100vh;
+  }
+
+  .startscreen {
+    height: 100vh;
+  }
+
+  .canvasContainer {
+    height: 100vh;
+  }
+
+  .endContainer {
+    height: 100%;
+  }
+
+  #endIMG {
+    height: 100%;
+  }
+
+  .controller {
+    display: flex !important;
+    position: absolute;
+    bottom: 20px;
+  }
+
+  .controllerInformation {
+    display: none;
+  }
+
+  .leftController img {
+    height: 40px;
+  }
+
+  .rightController img {
+    height: 40px;
+  }
+
+  .shootIcon {
+    font-size: 30px;
+    height: 40px;
+    width: 40px;
+  }
+
+  #shoot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

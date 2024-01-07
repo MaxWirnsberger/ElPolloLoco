@@ -3,7 +3,7 @@
   font-family: "Sancreek";
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/sancreek-v25-latin-regular.woff2") format("woff2");
+  src: url("../fonts/sancreek-v25-latin-regular.woff2") format("woff2");
 }
 
 body {
@@ -13,7 +13,7 @@ body {
   align-items: center;
   font-family: "Sancreek";
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("./img/10_backgroundDesert/desert.png");
+    url("../img/10_backgroundDesert/desert.png");
   background-position: center;
 
   margin: 0;
@@ -83,10 +83,15 @@ h1 {
   flex-direction: column;
   justify-content: center;
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   text-align: center;
   width: 720px;
   height: 480px;
   font-size: 30px;
+  z-index: 9999;
 }
 
 .infoClose {
@@ -114,6 +119,8 @@ h1 {
   position: absolute;
   width: 720px;
   height: 480px;
+  /* width: 100%;
+  height: 100%; */
 }
 
 .menuList {
@@ -163,7 +170,7 @@ h1 {
 }
 
 .startButton {
-  position: relative;
+  position: absolute;
   left: 280px;
   top: 180px;
 }
@@ -287,6 +294,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .rotationInfo img {
@@ -309,10 +317,6 @@ h1 {
   }
 
   .startscreen {
-    width: 100%;
-  }
-
-  .infoSite {
     width: 100%;
   }
 
@@ -359,17 +363,9 @@ h1 {
     height: 100vh;
   }
 
-  .infoSite {
-    height: 100vh;
-  }
-
   .canvasContainer {
     height: 100vh;
   }
-
-  /* canvas{
-    height: 100vh;
-  } */
 
   .endContainer {
     height: 100%;
