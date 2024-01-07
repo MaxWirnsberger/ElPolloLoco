@@ -55,6 +55,9 @@ class Character extends MovableObject {
     "img/2_character_pepe/4_hurt/H-43.png",
   ];
   world;
+  moveIntervall;
+  animateInterval;
+
   wolking_sound = new Audio("audio/running.mp3");
   jumping_sound = new Audio("audio/jump.mp3");
 
@@ -69,7 +72,7 @@ class Character extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    this.moveIntervall = setInterval(() => {
       this.wolking_sound.pause();
       if (
         this.world.keyboard.RIGHT &&
@@ -85,13 +88,13 @@ class Character extends MovableObject {
         this.characterSoundWalkingCheck();
       } else if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
-      } this.world.camera_x = -this.x + 120;
+      }
+      this.world.camera_x = -this.x + 120;
     }, 1000 / 60);
 
-    setInterval(() => {
+    this.animateInterval = setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        this.endCardScreen();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -125,5 +128,10 @@ class Character extends MovableObject {
       this.jumping_sound.play();
       this.isJumping = true;
     }
+  }
+
+  stopCharacter() {
+    clearInterval(this.moveIntervall);
+    clearInterval(this.animateInterval);
   }
 }

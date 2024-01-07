@@ -59,6 +59,7 @@ class World {
       } else if (this.checkItWillGetHurt(enemy, index)) {
         this.character.hit();
         this.statusBarLife.setPercentage(this.character.energy);
+        this.checkGameOver();
       }
     });
   }
@@ -106,6 +107,7 @@ class World {
           boss.bottleHitEndBossSound(this.soundIsOn);
           bottle.glasBreakSound(this.soundIsOn);
           this.statusBarBoss.setPercentage(boss.bossEnergy);
+          this.checkWinning(boss);
         }
       });
     });
@@ -116,6 +118,7 @@ class World {
       if (this.character.isColliding(boss) && !boss.bossIsDead) {
         this.character.hit();
         this.statusBarLife.setPercentage(this.character.energy);
+        this.checkGameOver();
       }
     });
   }
@@ -158,6 +161,24 @@ class World {
     let boss = this.level.endboss[0];
     this.distanceBossAndCharacter = boss.distanceToBoss(this.character.x);
     boss.firstContactCheck(this.character.x);
+  }
+
+  checkWinning(boss) {
+    if (boss.endbossIsDead()) {
+      this.character.stopCharacter();
+      boss.stopBoss();
+    }
+  }
+
+  checkGameOver() {
+    if (this.character.isDead()) {
+      this.character.stopCharacter();
+      this.level.endboss[0].stopBoss();
+      this.level.enemies.forEach((enemy) => {
+        enemy.stopChicken();
+      });
+      this.character.endCardScreen();
+    }
   }
 
   draw() {

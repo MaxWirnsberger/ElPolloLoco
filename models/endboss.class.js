@@ -92,7 +92,6 @@ class Endboss extends MovableObject {
           this.playAnimation(this.IMAGES_DEAD);
           this.playWinningSound();
           this.endCardScreenWin();
-          this.stopBoss();
         } else if (this.BottleGoalOnEndboss()) {
           this.playAnimation(this.IMAGES_HURT);
         } else {
