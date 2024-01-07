@@ -1,3 +1,6 @@
+/**
+ * This class describes the bottles that can be thrown and inherits from the MovableObject class
+ */
 class ThrowableObject extends MovableObject {
   hitEnemyWithBottle = false;
   offset = {
@@ -22,6 +25,12 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
+  /**
+   * Executes functions that add the images and render them
+   * 
+   * @param {number} x 
+   * @param {number} y 
+   */
   constructor(x, y) {
     super().loadImage(
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
@@ -34,6 +43,9 @@ class ThrowableObject extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Throws function and adds gravity
+   */
   trow() {
     this.width = 100;
     this.height = 80;
@@ -44,6 +56,9 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
+  /**
+   * Animates the thrown bottle
+   */
   animate() {
     setInterval(() => {
       if (this.bottleArrivedGround()) {
@@ -55,10 +70,17 @@ class ThrowableObject extends MovableObject {
     }, 50);
   }
 
+  /**
+   * Checks whether the bottle has reached the bottom
+   * @returns boolean
+   */
   bottleArrivedGround(){
     return this.y >= 300;
   }
 
+  /**
+   * Causes the bottle to shatter if it hits the ground
+   */
   bottleSplash() {
     this.playAnimation(this.IMAGE_GLASBREAK);
     this.speedY = -25;

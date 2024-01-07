@@ -1,3 +1,6 @@
+/**
+ * This class is a precursor to many moving elements in the game
+ */
 class MovableObject extends DrawableObject {
   speed = 0.15;
   otherDirection = false;
@@ -15,6 +18,9 @@ class MovableObject extends DrawableObject {
   didEndbossHit = false;
   isJumping = false;
 
+  /**
+   * Describes the gravity when an element is above the ground
+   */
   applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -24,6 +30,10 @@ class MovableObject extends DrawableObject {
     }, 1000 / 30);
   }
 
+  /**
+   * Checks if an element is above the ground
+   * @returns boolean
+   */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
@@ -34,6 +44,12 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Checks if two elements in the game collide
+   * 
+   * @param {string} obj 
+   * @returns boolean
+   */
   isColliding(obj) {
     return (
       this.x + this.width - this.offset.right > obj.x + obj.offset.left &&
@@ -43,6 +59,9 @@ class MovableObject extends DrawableObject {
     );
   }
 
+  /**
+   * Reduces Pepe's health when hit
+   */
   hit() {
     this.energy -= 10;
     if (this.energy < 0) {
@@ -57,38 +76,66 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Check the time when Pepe was hit
+   */
   hitTimer() {
     setTimeout(() => {
       this.didHit = false;
     }, 1000);
   }
 
+  /**
+   * Adds the coins when they collided with Pepe
+   */
   addCoin() {
     this.coins += 10;
   }
 
+  /**
+   * Adds the bottles when they collided with Pepe
+   */
   addBottle() {
     this.bottles += 1;
   }
 
+  /**
+   * Checks whether Pepe can be hurt
+   * @returns boolean
+   */
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
 
+  /**
+   * Checks whether Pepe has already been defeated
+   * @returns boolean
+   */
   isDead() {
     return this.energy == 0;
   }
 
+  /**
+   * This function ensures that the elements can move to the right
+   */
   moveRight() {
     this.x += this.speed;
   }
 
+  /**
+   * This function ensures that the elements can move to the left
+   */
   moveLeft() {
     this.x -= this.speed;
   }
 
+  /**
+   * Checks all images in an array and does this in a continuous loop
+   * 
+   * @param {string} images // img Path
+   */
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -96,14 +143,28 @@ class MovableObject extends DrawableObject {
     this.currentImage++;
   }
 
+  /**
+   * When executed, ensures that elements move 25px up
+   */
   jump() {
     this.speedY = 25;
   }
 
+  /**
+   * Check the distance between Pepe and the final boss
+   * 
+   * @param {number} characterX 
+   * @returns boolean
+   */
   distanceToBoss(characterX) {
     return this.x - characterX;
   }
 
+  /**
+   * Check whether Pepe has already encountered the final boss
+   * 
+   * @param {number} characterX 
+   */
   firstContactCheck(characterX) {
     if (characterX > 2000 && this.hadFirstContactWithBoss) {
       this.BossWalkingIntervall = 0;
@@ -111,10 +172,18 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Check if the final boss is dead
+   * 
+   * @returns boolean
+   */
   endbossIsDead() {
     return this.bossEnergy == 0;
   }
 
+  /**
+   * Reduces Endboss health when hit
+   */
   endbossHit() {
     this.bossEnergy -= 20;
     if (this.bossEnergy < 0) {
@@ -127,37 +196,61 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * ensures that the final boss cannot be beaten again straight away
+   */
   hitEndbossTimer() {
     setTimeout(() => {
       this.didEndbossHit = false;
     }, 1000);
   }
 
+  /**
+   * Check whether the bottle can hurt the final boss at the moment
+   * 
+   * @returns boolean
+   */
   BottleGoalOnEndboss() {
     let timepassed = new Date().getTime() - this.lastEndbossHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
 
-  //Play Sounds
+  //Play Sounds-----------------------------------------------------
+  /**
+   * Plays sound when bottle is picked up
+   * @param {boolean} soundIsOn 
+   */
   bottlePickUpSound(soundIsOn) {
     if (soundIsOn) {
       this.bottlePickUp_sound.play();
     }
   }
 
+  /**
+   * Plays sound when bottle is thrown
+   * @param {boolean} soundIsOn 
+   */
   throwBottleSound(soundIsOn) {
     if (soundIsOn) {
       this.throw_sound.play();
     }
   }
 
+  /**
+   * Plays sound when bottle gets broken
+   * @param {boolean} soundIsOn 
+   */
   glasBreakSound(soundIsOn) {
     if (soundIsOn) {
       this.glasBreak_sound.play();
     }
   }
 
+  /**
+   * Plays sound when the bottle hits the final boss
+   * @param {boolean} soundIsOn 
+   */
   bottleHitEndBossSound(soundIsOn) {
     if (soundIsOn) {
       this.endBoss_hit_sound.play();

@@ -1,3 +1,6 @@
+/**
+ * Describes the class for the bottles received, inheriting from DrawableObject
+ */
 class StatusBarCoin extends DrawableObject {
   IMAGES_COIN = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png",
@@ -7,9 +10,11 @@ class StatusBarCoin extends DrawableObject {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png",
   ];
-
   percentage = 0;
 
+  /**
+   * Loads some images to visualize the status display and describes them
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES_COIN);
@@ -20,12 +25,20 @@ class StatusBarCoin extends DrawableObject {
     this.setPercentage(0);
   }
 
+  /**
+   * Inserts the appropriate status bar
+   * @param {number} percentage 
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES_COIN[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Checks the number of pickUpped Coins and returns it as a number to display the correct status display
+   * @returns number
+   */
   resolveImageIndex() {
     if (this.percentage >= 80) {
       return 5;

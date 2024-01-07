@@ -1,3 +1,6 @@
+/**
+ * This class describes the hero Pepe and inherits from the MovableObject class
+ */
 class Character extends MovableObject {
   height = 300;
   width = 130;
@@ -61,6 +64,9 @@ class Character extends MovableObject {
   wolking_sound = new Audio("audio/running.mp3");
   jumping_sound = new Audio("audio/jump.mp3");
 
+  /**
+   * This constructor loads several image sections of Pepe and executes the gravity and animation.
+   */
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -71,43 +77,96 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Trigger functions at a specified interval to move the character and animate the actions
+   */
   animate() {
-    this.moveIntervall = setInterval(() => {
-      this.wolking_sound.pause();
-      if (
-        this.world.keyboard.RIGHT &&
-        this.x < this.world.level.level_end_x &&
-        this.world.distanceBossAndCharacter > 10
-      ) {
-        this.moveRight();
-        this.otherDirection = false;
-        this.characterSoundWalkingCheck();
-      } else if (this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.otherDirection = true;
-        this.characterSoundWalkingCheck();
-      } else if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
-      }
-      this.world.camera_x = -this.x + 120;
-    }, 1000 / 60);
-
-    this.animateInterval = setInterval(() => {
-      if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-        this.characterSoundJumpingCheck();
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
-      }
-    }, 50);
+    this.moveIntervall = setInterval(() => this.movingCharacter(), 1000 / 60);
+    this.animateInterval = setInterval(() => this.animateCharacter(), 50);
   }
 
+  /**
+   * Checks which activities are triggered and triggers other functions to execute the movements
+   */
+  movingCharacter() {
+    this.wolking_sound.pause();
+    if (this.moveRightTest()) {
+      this.functionsToMoveToTheRight();
+    } else if (this.moveLeftTest()) {
+      this.functionsToMoveToTheLeft();
+    } else if (this.moveJumpTest()) {
+      this.jump();
+    }
+    this.world.camera_x = -this.x + 120;
+  }
+
+  /**
+   * Checks whether the character moves to the right
+   * @returns boolean
+   */
+  moveRightTest() {
+    return (
+      this.world.keyboard.RIGHT &&
+      this.x < this.world.level.level_end_x &&
+      this.world.distanceBossAndCharacter > 10
+    );
+  }
+
+  /**
+   * triggers functions when the character moves to the right
+   */
+  functionsToMoveToTheRight() {
+    this.moveRight();
+    this.otherDirection = false;
+    this.characterSoundWalkingCheck();
+  }
+
+  /**
+   * Checks whether the character moves to the left
+   * @returns boolean
+   */
+  moveLeftTest() {
+    return this.world.keyboard.LEFT && this.x > 0;
+  }
+
+  /**
+   * triggers functions when the character moves to the left
+   */
+  functionsToMoveToTheLeft() {
+    this.moveLeft();
+    this.otherDirection = true;
+    this.characterSoundWalkingCheck();
+  }
+
+  /**
+   * Checks whether the character jump
+   * @returns boolean
+   */
+  moveJumpTest() {
+    return this.world.keyboard.SPACE && !this.isAboveGround();
+  }
+
+  /**
+   * Checks which activities are triggered and triggers other functions to execute the animation
+   */
+  animateCharacter() {
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD);
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMPING);
+      this.characterSoundJumpingCheck();
+    } else {
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
+    }
+  }
+
+  /**
+   * Creates an end screen when the game is over
+   */
   endCardScreen() {
     setTimeout(() => {
       let endScreen = document.getElementById("endContainer");
@@ -117,12 +176,18 @@ class Character extends MovableObject {
     }, 1000);
   }
 
+  /**
+   * Checks whether the sound is permitted and plays the walkin sound
+   */
   characterSoundWalkingCheck() {
     if (this.world.soundIsOn) {
       this.wolking_sound.play();
     }
   }
 
+  /**
+   * Checks whether the sound is permitted and plays the jumping sound
+   */
   characterSoundJumpingCheck() {
     if (this.world.soundIsOn && !this.isJumping) {
       this.jumping_sound.play();
@@ -130,6 +195,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Stops the character's intervals when the game is over
+   */
   stopCharacter() {
     clearInterval(this.moveIntervall);
     clearInterval(this.animateInterval);

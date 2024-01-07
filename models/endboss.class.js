@@ -1,3 +1,6 @@
+/**
+ * This class describes the enemies in the form of the endboss and inherits MovableObject class
+ */
 class Endboss extends MovableObject {
   height = 400;
   width = 250;
@@ -58,6 +61,9 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  /**
+   * This constructor loads several images of the Boss and runs the animation.
+   */
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_ALERT);
@@ -66,46 +72,68 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_DEAD);
     this.x = 2500;
     this.speed = 15;
-    this.animate();
+    this.moving();
   }
 
-  animate() {
-    this.moveLeftInterval = setInterval(() => {
-      if (this.hadFirstContactWithBoss) {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else if (
-        this.BossWalkingIntervall < 10 &&
-        !this.hadFirstContactWithBoss
-      ) {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else if (this.world.distanceBossAndCharacter > 10) {
-        this.moveLeft();
-        this.endbossReactions();
-      }
-      this.BossWalkingIntervall++;
-    }, 150);
+  /**
+   * Trigger functions at a specified interval to move the endboss
+   */
+  moving() {
+    this.moveLeftInterval = setInterval(() => this.movingEndboss(), 150);
   }
 
+  /**
+   * Trigger functions at a specified interval to animate the endboss
+   */
   endbossReactions() {
-      this.animationInterval = setInterval(() => {
-        if (this.endbossIsDead()) {
-          this.playAnimation(this.IMAGES_DEAD);
-          this.playWinningSound();
-          this.endCardScreenWin();
-        } else if (this.BottleGoalOnEndboss()) {
-          this.playAnimation(this.IMAGES_HURT);
-        } else {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
-      }, 150);
+      this.animationInterval = setInterval(() => this.enbossAnimations(), 150);
   }
 
+  /**
+   * Checks which activities are triggered and triggers other functions to execute the movements
+   */
+  movingEndboss(){
+    if (this.hadFirstContactWithBoss) {
+      this.playAnimation(this.IMAGES_ALERT);
+    } else if (
+      this.BossWalkingIntervall < 10 &&
+      !this.hadFirstContactWithBoss
+    ) {
+      this.playAnimation(this.IMAGES_ALERT);
+    } else if (this.world.distanceBossAndCharacter > 10) {
+      this.moveLeft();
+      this.endbossReactions();
+    }
+    this.BossWalkingIntervall++;
+  }
+
+  /**
+   * Checks which activities are triggered and triggers other functions to execute the animation
+   */
+  enbossAnimations(){
+    if (this.endbossIsDead()) {
+      this.playAnimation(this.IMAGES_DEAD);
+      this.playWinningSound();
+      this.endCardScreenWin();
+    } else if (this.BottleGoalOnEndboss()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+  }
+
+  /**
+   * Stops the boss intervals when the game is over
+   */
   stopBoss() {
     clearInterval(this.moveLeftInterval);
     clearInterval(this.animationInterval);
     this.bossIsDead = true;
   }
 
+  /**
+   * Checks whether the sound is permitted and plays the winning sound
+   */
   playWinningSound() {
     if (this.world.soundIsOn) {
       this.win_game_sound.play();
@@ -113,6 +141,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Creates an end screen when the game is over
+   */
   endCardScreenWin() {
     setTimeout(() => {
       let endScreen = document.getElementById("endContainer");

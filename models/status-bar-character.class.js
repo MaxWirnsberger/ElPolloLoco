@@ -1,3 +1,6 @@
+/**
+ * Describes the class for the bottles received, inheriting from DrawableObject
+ */
 class StatusBarLife extends DrawableObject {
   IMAGES_HEALTH = [
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
@@ -10,6 +13,9 @@ class StatusBarLife extends DrawableObject {
 
   percentage = 100;
 
+  /**
+   * Loads some images to visualize the status display and describes them
+   */
   constructor() {
     super();
     this.loadImages(this.IMAGES_HEALTH);
@@ -20,12 +26,20 @@ class StatusBarLife extends DrawableObject {
     this.setPercentage(100);
   }
 
+  /**
+   * Inserts the appropriate status bar
+   * @param {number} percentage 
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES_HEALTH[this.resolveImageIndex()];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Checks the health status and returns it as a number to display the correct status display
+   * @returns number
+   */
   resolveImageIndex() {
     if (this.percentage >= 80) {
       return 5;

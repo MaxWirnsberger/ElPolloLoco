@@ -1,3 +1,6 @@
+/**
+ * This class describes the enemies in the form of chickens and inherits MovableObject class
+ */
 class Chicken extends MovableObject {
   y = 360;
   height = 70;
@@ -21,6 +24,9 @@ class Chicken extends MovableObject {
     "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
+  /**
+   * This constructor loads several images of the chickens and runs the animation.
+   */
   constructor() {
     super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -30,6 +36,9 @@ class Chicken extends MovableObject {
     this.animateDeadChicken();
   }
 
+  /**
+   * Trigger functions at a specified interval to move the character and animate the actions
+   */
   animate() {
     this.moveLeftInterval = setInterval(() => {
       this.moveLeft();
@@ -42,6 +51,9 @@ class Chicken extends MovableObject {
     this.chickenIntervals.push(this.walkinAnimationInterval);
   }
 
+  /**
+   * Trigger functions if the Chicken is dead
+   */
   animateDeadChicken() {
     setInterval(() => {
       if (this.enemyDead) {
@@ -50,6 +62,9 @@ class Chicken extends MovableObject {
     }, 150);
   }
 
+  /**
+   * Stops Interval if the chicken is dead
+   */
   stopChicken() {
     this.chickenIntervals.forEach(clearInterval);
     this.chickenIsDead = true;

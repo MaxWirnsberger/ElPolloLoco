@@ -1,4 +1,7 @@
 let level1;
+/**
+ * This function creates level 1
+ */
 function initLevel() {
   level1 = new Level(
     [
