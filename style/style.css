@@ -171,8 +171,8 @@ h1 {
 
 .startButton {
   position: absolute;
-  left: 280px;
-  top: 180px;
+  left: 40%;
+  top: 150px;
 }
 
 .startButton img {
