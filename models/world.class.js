@@ -79,7 +79,7 @@ class World {
         this.killChickeWithAJump(enemy, index);
         this.statusBarLife.setPercentage(this.character.energy);
       } else if (this.checkItWillGetHurt(enemy, index)) {
-        this.character.hit();
+        this.character.hit("chicken");
         this.statusBarLife.setPercentage(this.character.energy);
         this.checkGameOver();
       }
@@ -164,7 +164,7 @@ class World {
   checkCollisionswithEndboss() {
     this.level.endboss.forEach((boss) => {
       if (this.character.isColliding(boss) && !boss.bossIsDead) {
-        this.character.hit();
+        this.character.hit("boss");
         this.statusBarLife.setPercentage(this.character.energy);
         this.checkGameOver();
       }

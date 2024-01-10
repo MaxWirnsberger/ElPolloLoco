@@ -6,6 +6,8 @@ class Character extends MovableObject {
   width = 130;
   y = 130;
   speed = 10;
+  lastDoing = 0;
+  nothingToDo = false;
 
   offset = {
     top: 100,
@@ -13,6 +15,32 @@ class Character extends MovableObject {
     bottom: 10,
     left: 20,
   };
+
+  IMAGES_IDLE = [
+    "img/2_character_pepe/1_idle/idle/I-1.png",
+    "img/2_character_pepe/1_idle/idle/I-2.png",
+    "img/2_character_pepe/1_idle/idle/I-3.png",
+    "img/2_character_pepe/1_idle/idle/I-4.png",
+    "img/2_character_pepe/1_idle/idle/I-5.png",
+    "img/2_character_pepe/1_idle/idle/I-6.png",
+    "img/2_character_pepe/1_idle/idle/I-7.png",
+    "img/2_character_pepe/1_idle/idle/I-8.png",
+    "img/2_character_pepe/1_idle/idle/I-9.png",
+    "img/2_character_pepe/1_idle/idle/I-10.png",
+  ];
+
+  IMAGES_IDLE_LONG = [
+    "img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "img/2_character_pepe/1_idle/long_idle/I-20.png",
+  ];
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -70,6 +98,8 @@ class Character extends MovableObject {
   constructor() {
     super().loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_IDLE);
+    this.loadImages(this.IMAGES_IDLE_LONG);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
@@ -90,12 +120,13 @@ class Character extends MovableObject {
    */
   movingCharacter() {
     this.wolking_sound.pause();
-    if (this.moveRightTest()) {
+    if (this.isMovingRight()) {
       this.functionsToMoveToTheRight();
-    } else if (this.moveLeftTest()) {
+    } else if (this.isMovingLeft()) {
       this.functionsToMoveToTheLeft();
-    } else if (this.moveJumpTest()) {
+    } else if (this.isJumpingNow()) {
       this.jump();
+      this.nothingToDo = false;
     }
     this.world.camera_x = -this.x + 120;
   }
@@ -104,7 +135,7 @@ class Character extends MovableObject {
    * Checks whether the character moves to the right
    * @returns boolean
    */
-  moveRightTest() {
+  isMovingRight() {
     return (
       this.world.keyboard.RIGHT &&
       this.x < this.world.level.level_end_x &&
@@ -119,13 +150,14 @@ class Character extends MovableObject {
     this.moveRight();
     this.otherDirection = false;
     this.characterSoundWalkingCheck();
+    this.nothingToDo = false;
   }
 
   /**
    * Checks whether the character moves to the left
    * @returns boolean
    */
-  moveLeftTest() {
+  isMovingLeft() {
     return this.world.keyboard.LEFT && this.x > 0;
   }
 
@@ -136,13 +168,14 @@ class Character extends MovableObject {
     this.moveLeft();
     this.otherDirection = true;
     this.characterSoundWalkingCheck();
+    this.nothingToDo = false;
   }
 
   /**
    * Checks whether the character jump
    * @returns boolean
    */
-  moveJumpTest() {
+  isJumpingNow() {
     return this.world.keyboard.SPACE && !this.isAboveGround();
   }
 
@@ -158,10 +191,47 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_JUMPING);
       this.characterSoundJumpingCheck();
     } else {
-      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
+      this.isMovingOrNot();
     }
+  }
+
+  /**
+   * This checks whether Pepe is not moving
+   */
+  isMovingOrNot() {
+    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+    } else if (!this.nothingToDo) {
+      this.lastDoing = new Date().getTime();
+      this.nothingToDo = true;
+    } else if (!this.isDoingNothing()) {
+      this.playAnimation(this.IMAGES_IDLE);
+    } else {
+      this.playAnimation(this.IMAGES_IDLE_LONG);
+    }
+  }
+
+  /**
+   * Here True is returned if Pepe doesn't move
+   * @returns boolean
+   */
+  isDoingNothing() {
+    return (
+      !this.isMovingRight() &&
+      !this.isMovingLeft() &&
+      !this.isJumping &&
+      this.isSleeping()
+    );
+  }
+
+  /**
+   * Here True is returned if Pepe doesn't move for more than 5 seconds
+   * @returns boolean
+   */
+  isSleeping() {
+    let timepassed = new Date().getTime() - this.lastDoing;
+    timepassed = timepassed / 1000;
+    return timepassed > 5;
   }
 
   /**

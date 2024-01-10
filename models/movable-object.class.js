@@ -46,8 +46,8 @@ class MovableObject extends DrawableObject {
 
   /**
    * Checks if two elements in the game collide
-   * 
-   * @param {string} obj 
+   *
+   * @param {string} obj
    * @returns boolean
    */
   isColliding(obj) {
@@ -62,17 +62,28 @@ class MovableObject extends DrawableObject {
   /**
    * Reduces Pepe's health when hit
    */
-  hit() {
-    this.energy -= 10;
+  hit(enemy) {
+    this.hitCheckBossOrChicken(enemy)
     if (this.energy < 0) {
       this.energy = 0;
     } else {
       this.lastHit = new Date().getTime();
-      if (this.x > 0) {
+      if (this.x > 0 && enemy == "boss") {
         this.x -= 150;
       }
       this.didHit = true;
       this.hitTimer();
+    }
+  }
+
+  /**
+   * Check whether Pepe was caught by the boss or a chicken
+   */
+  hitCheckBossOrChicken(enemy){
+    if (enemy == "boss") {
+      this.energy -= 33.3333;
+    } else {
+      this.energy -= 10;
     }
   }
 
@@ -133,7 +144,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Checks all images in an array and does this in a continuous loop
-   * 
+   *
    * @param {string} images // img Path
    */
   playAnimation(images) {
@@ -152,8 +163,8 @@ class MovableObject extends DrawableObject {
 
   /**
    * Check the distance between Pepe and the final boss
-   * 
-   * @param {number} characterX 
+   *
+   * @param {number} characterX
    * @returns boolean
    */
   distanceToBoss(characterX) {
@@ -162,8 +173,8 @@ class MovableObject extends DrawableObject {
 
   /**
    * Check whether Pepe has already encountered the final boss
-   * 
-   * @param {number} characterX 
+   *
+   * @param {number} characterX
    */
   firstContactCheck(characterX) {
     if (characterX > 2000 && this.hadFirstContactWithBoss) {
@@ -174,7 +185,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Check if the final boss is dead
-   * 
+   *
    * @returns boolean
    */
   endbossIsDead() {
@@ -207,7 +218,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Check whether the bottle can hurt the final boss at the moment
-   * 
+   *
    * @returns boolean
    */
   BottleGoalOnEndboss() {
@@ -219,7 +230,7 @@ class MovableObject extends DrawableObject {
   //Play Sounds-----------------------------------------------------
   /**
    * Plays sound when bottle is picked up
-   * @param {boolean} soundIsOn 
+   * @param {boolean} soundIsOn
    */
   bottlePickUpSound(soundIsOn) {
     if (soundIsOn) {
@@ -229,7 +240,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Plays sound when bottle is thrown
-   * @param {boolean} soundIsOn 
+   * @param {boolean} soundIsOn
    */
   throwBottleSound(soundIsOn) {
     if (soundIsOn) {
@@ -239,7 +250,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Plays sound when bottle gets broken
-   * @param {boolean} soundIsOn 
+   * @param {boolean} soundIsOn
    */
   glasBreakSound(soundIsOn) {
     if (soundIsOn) {
@@ -249,7 +260,7 @@ class MovableObject extends DrawableObject {
 
   /**
    * Plays sound when the bottle hits the final boss
-   * @param {boolean} soundIsOn 
+   * @param {boolean} soundIsOn
    */
   bottleHitEndBossSound(soundIsOn) {
     if (soundIsOn) {

@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 let soundIsOn = false;
 let fullscrennTest = false;
 worldSound = new Audio("audio/music.mp3");
-
+worldSound.volume = 0.2
 /**
  * Initiates some functions when starting the game
  */
